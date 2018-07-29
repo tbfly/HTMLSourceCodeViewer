@@ -11,8 +11,13 @@ import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class WebUtils {
+
+	public WebUtils() {
+	}
 
 	public static HashMap<String, ArrayList<String>> getHtmlResources(String html, String enteredUrl) {
 
@@ -37,6 +42,35 @@ public class WebUtils {
 			bigimgLinks.add(removeParams(returnValidUrl(bigimg.attr("bigimgsrc"), enteredUrl)));
 		}
 
+		if (allbigImg.size() == 0) {
+			Elements allImg = doc.select("img"); // BigImgSrc
+			for (Element img : allImg) {
+				String url = returnValidUrl(img.attr("src"), enteredUrl);
+				//for TuChong fix
+				if (!url.contains("logo_small"))
+					bigimgLinks.add(removeParams(url));
+			}
+		}
+
+		//instagram
+		if (allbigImg.size() == 0) {
+			Elements allJsEle = doc.select("script");
+			for (Element ele : allJsEle) {
+				String ele_js = ele.toString();
+				//window._sharedData
+				if (ele_js.contains("display_url")) {
+					//Log.d("MAP RESULTS JS/CSS display_url element = ", ele.toString());
+					Pattern p = Pattern.compile("(?is)display_url\":\"(.+?)\""); // Regex for the value of the key
+					Matcher m = p.matcher(ele.html()); // you have to use html here and NOT text! Text will drop the 'key' part
+
+					while( m.find() ) {
+						//Log.d("MAP RESULTS JS/CSS display_url element all = ", m.group()); // the whole key ('key = value')
+						//Log.d("MAP RESULTS JS/CSS display_url element url = ", m.group(1)); // value only
+						bigimgLinks.add(removeParams(returnValidUrl(m.group(1), enteredUrl)));
+					}
+				}
+			}
+		}
 
 		HashMap<String, ArrayList<String>> result = new HashMap<String, ArrayList<String>>();
 		result.put(MyApp.CSS, cssLinks);

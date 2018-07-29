@@ -1,3 +1,10 @@
+#HTMLSourceCodeViewer_Lofter
+
+Based on:
+https://github.com/antonio83franco/HTMLSourceCodeViewer
+
+It can parse Lofter/TuChong/Instagram url, to get protected pictures download url.
+
 # HTMLSourceCodeViewer
 HTML Source Code viewer app for Android
 
