@@ -66,7 +66,9 @@ public class WebUtils {
 					while( m.find() ) {
 						//Log.d("MAP RESULTS JS/CSS display_url element all = ", m.group()); // the whole key ('key = value')
 						//Log.d("MAP RESULTS JS/CSS display_url element url = ", m.group(1)); // value only
-						bigimgLinks.add(removeParams(returnValidUrl(m.group(1), enteredUrl)));
+						//bigimgLinks.add(removeParams(returnValidUrl(m.group(1), enteredUrl)));
+						//FIX: "URL signature mismatch"
+						bigimgLinks.add(returnValidUrl(m.group(1), enteredUrl));
 					}
 				}
 			}
