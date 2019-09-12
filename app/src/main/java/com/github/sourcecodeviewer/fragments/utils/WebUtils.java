@@ -68,7 +68,7 @@ public class WebUtils {
 						//Log.d("MAP RESULTS JS/CSS display_url element url = ", m.group(1)); // value only
 						//bigimgLinks.add(removeParams(returnValidUrl(m.group(1), enteredUrl)));
 						//FIX: "URL signature mismatch"
-						bigimgLinks.add(returnValidUrl(m.group(1), enteredUrl));
+						bigimgLinks.add(returnValidUrl(m.group(1), enteredUrl).replace("\\u0026", "&"));
 					}
 				}
 			}
